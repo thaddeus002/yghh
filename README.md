@@ -71,16 +71,20 @@ Then change yannick's shell :
 
 Optionnaly put his public key in ~yannick/.ssh to not be asked for password. Or put an password with command "passwd yannick".
 
-Create now an empty bare repository :
+Create now an empty bare repository, and add write rights to group :
 
     # mkdir /var/www/htdocs/yghh.git
     # cd /var/www/htdocs/yghh.git
     # git init --bare
+    # chmod -R 775 branches objects refs
+    # chmod 775 info
+    # chmod 664 HEAD info/*
 
 For the repository to be clonable by HTTP, you must add a hook for each update. This is not needed if you don't want your repository to de clonable by everyone.
 
     # mv hooks/post-update.sample hooks/post-update
     # ./hooks/post-update
+    # chmod 664 info/* objects/info/*
 
 ### clone and push
 
