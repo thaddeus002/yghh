@@ -106,6 +106,13 @@ If you arrived here, your git hosting is operationnal. Now you can add repositor
 
 -- TO BE CONTINUED
 
+## References
+
+For more informations on git hosting or on cgit, read the following references
+
+  1. [Progit v2](https://git-scm.com/book/en/v2) by Scott Chacon, chapter 4 : Git on the server
+  2. Cgit README, and manpage on [cgit website](https://git.zx2c4.com/cgit/)
+
 ## Author
 
 Yannick Garcia - 2018
