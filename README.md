@@ -1,14 +1,16 @@
 # Yannick's Git Hosting Howto Project
 
-This document will describe one way to host Git repositories on a server. IS STILL NOT COMPLETED.
+This document will describe one way to host Git repositories on a Linux server. IS STILL NOT COMPLETED.
 
 There are many ways to do this, I present here my way, the one I think is simpler. This is a moving document that can evolute with time. You are free to follow this as a guide if you don't know how to do. Let me know if you think something is wrong, or make a pull request.
+
+Must of the actions to do are generic, but, following your distribution, some paths or filename may change.
 
 ## Prerequisites
 
 You'll need of course a server with root access. It will be named "example.com" in this document. In the following, replace "example.com" by the name or the IP address of your server.
 
-We'll also used HTTP protocol for anonymous repositories clone. And so a web server must be install on "example.com". The configurations showned are for the apache server. This Howto doesn't present the configuration for others web servers. Please contribute if you want them to appear.
+We'll also used HTTP protocol for anonymous repositories clone. And so a web server must be install on "example.com". The configurations showned are for the apache server. This Howto doesn't present the configuration for others webservers. Please contribute if you want them to appear.
 
 The git push, will be made over ssh protocol. The sshd deamon is probably already running on your server. If not, install it.
 
@@ -32,7 +34,7 @@ The write rigths will be allowed to groups. First, we create a group "git" which
     # chgrp git /var/www/htdocs
     # chmod 2775 /var/www/htdocs
 
-### configure web access to the repository (only need for anonymous clone) 
+### configure web access to the repositories (only need for anonymous clone)
 
 Add to the file "/etc/httpd/conf/httpd.conf" (may be "/etc/apache2/apache.conf" on a raspberry pi) :
 
@@ -100,7 +102,7 @@ or
 
 ### You did it
 
-If you arrived here, your git hosting is operationnal. Now you can add repositories and users with write access to them. 
+If you arrived here, your git hosting is operationnal. Now you can add repositories and users with write access to them.
 
 ## Optional web interface with cgit
 
@@ -116,9 +118,9 @@ For this to work the cgi module must be loaded by apache deamon, and the directo
 
 #### Loading cgi module
 
-In your "/etc/httpd/conf/httpd.conf" uncomment the line beginning by "LoadModule cgid_module"
+In your "/etc/httpd/conf/httpd.conf" or "/etc/apache2/apache2.conf" file uncomment the line beginning by "LoadModule cgid_module"
 
-On a raspberry pi, the equivalent action is made by creating two symlinks : 
+On a raspberry pi, the equivalent action is made by creating two symlinks :
 
     $ cd /etc/apache2/mods-enabled/
     $ ln -s ../mods-available/cgid.load .
@@ -128,12 +130,16 @@ On a raspberry pi, the equivalent action is made by creating two symlinks :
 
 add the following in "/etc/httpd/conf/httpd.conf" or "/etc/apache2/apache2.conf" file :
 
-ScriptAlias /cgit/ "/var/www/htdocs/cgit/"
-<Directory /var/www/htdocs/cgit>
+    ScriptAlias /cgit/ "/var/www/htdocs/cgit/"
+    <Directory /var/www/htdocs/cgit>
         Options Indexes FollowSymLinks
         AllowOverride None
         Require all granted
-</Directory> 
+    </Directory>
+
+and create de directory :
+
+    # mkdir /var/www/htdocs/cgit
 
 #### Restarting service
 
@@ -145,9 +151,38 @@ or
 
 ### Compiling and installing cgit
 
+It's probably possible with your distribution to install cgit with the packet manager. But for better understand how it works, we'll build and install it ourself. If you don't want to do this, or don't have gcc installed on your server, skip this section and simply do
+
+    # apt get install cgit
+
+or
+
+    # yum install cgit
+
+or whatever is suitable for your distribution.
+
+Else you can build cgit :
+
     $ git clone --recursive https://git.zx2c4.com/cgit
     $ cd cgit
     $ make NO_LUA=1
+
+After that, install the program on the webserver :
+
+    # cp cgit /var/www/htdocs/cgit/cgit.git
+
+At this point, the url "http://example.com/cgit/cgit.cgi" must be accessible and present some text.
+
+To make this page nicer, we need to add a css, a logo, and a favicon. Considering the root webserver directory is "/var/www/html", we can put theses files in it :
+
+    # mkdir -p /var/www/html/css /var/www/html/images /var/www/html/icons
+    # cp cgit*.css /var/www/html/css/
+    # cp cgit.png /var/www/html/images/
+    # cp favicon.ico /var/www/html/icons/
+
+To avoid error logs for apache, create the directory /var/cache/cgit
+
+    # mkdir -p /var/cache/cgit
 
 -- TO BE CONTINUED
 
