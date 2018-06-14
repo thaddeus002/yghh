@@ -191,13 +191,17 @@ To avoid error logs for apache, create the directory /var/cache/cgit and make it
 
 You must declare yours repositories for cgit to be able to show them. For our example, we'll create a file "/etc/cgitrc" with the following content :
 
-    clone-url=http://192.168.0.15/yanngit/$CGIT_REPO_URL.git
+    clone-url=http://example.com/yanngit/$CGIT_REPO_URL.git
     repo.url=yghh
     repo.path=/var/www/htdocs/yghh.git
     repo.desc=Yannick's Git Hosting Howto
     repo.owner=Yannick Garcia  
 
 You may have as much "repo.*" lines as repositories you are hosting.
+
+If you select the project "yghh" in the list of projects now appearing on "http://example.com/cgit/cgit.cgi", you may see something looking like this :
+
+![screenshot](yghh_view.png)
 
 ### Used cgit filters
 
