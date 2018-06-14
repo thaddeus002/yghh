@@ -137,7 +137,7 @@ add the following in "/etc/httpd/conf/httpd.conf" or "/etc/apache2/apache2.conf"
         Require all granted
     </Directory>
 
-and create de directory :
+and create the directory :
 
     # mkdir /var/www/htdocs/cgit
 
@@ -186,6 +186,21 @@ To avoid error logs for apache, create the directory /var/cache/cgit and make it
     # mkdir -p /var/cache/cgit
     # chgrp www-data /var/cache/cgit
     # chmod 775 /var/cache/cgit
+
+### Configure your repository
+
+You must declare yours repositories for cgit to be able to show them. For our example, we'll create a file "/etc/cgitrc" with the following content :
+
+    clone-url=http://192.168.0.15/yanngit/$CGIT_REPO_URL.git
+    repo.url=yghh
+    repo.path=/var/www/htdocs/yghh.git
+    repo.desc=Yannick's Git Hosting Howto
+    repo.owner=Yannick Garcia  
+
+You may have as much "repo.*" lines as repositories you are hosting.
+
+### Used cgit filters
+
 
 -- TO BE CONTINUED
 
