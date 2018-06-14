@@ -169,20 +169,23 @@ Else you can build cgit :
 
 After that, install the program on the webserver :
 
-    # cp cgit /var/www/htdocs/cgit/cgit.git
+    # cp cgit /var/www/htdocs/cgit/cgit.cgi
 
 At this point, the url "http://example.com/cgit/cgit.cgi" must be accessible and present some text.
 
 To make this page nicer, we need to add a css, a logo, and a favicon. Considering the root webserver directory is "/var/www/html", we can put theses files in it :
 
-    # mkdir -p /var/www/html/css /var/www/html/images /var/www/html/icons
-    # cp cgit*.css /var/www/html/css/
-    # cp cgit.png /var/www/html/images/
-    # cp favicon.ico /var/www/html/icons/
+    # cp cgit*.css /var/www/html/
+    # cp cgit.png /var/www/html/
+    # cp favicon.ico /var/www/html/
 
-To avoid error logs for apache, create the directory /var/cache/cgit
+By default, these file are looked for in the root directory on the web server. This can be override in by cgit configuration. See cgitrc manpage for detail.
+
+To avoid error logs for apache, create the directory /var/cache/cgit and make it writable for apache
 
     # mkdir -p /var/cache/cgit
+    # chgrp www-data /var/cache/cgit
+    # chmod 775 /var/cache/cgit
 
 -- TO BE CONTINUED
 
