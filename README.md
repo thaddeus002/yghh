@@ -203,8 +203,13 @@ If you select the project "yghh" in the list of projects now appearing on "http:
 
 ![screenshot](yghh_view.png)
 
-### Used cgit filters
+### Add an icon to you project
 
+You may want to replace the cgit logo at the top-left of the page by another logo. Place this logo on the server, under "/var/www/html/yghh.png", and edit "/etc/cgitrc", adding after the line "repo.url=yghh" :
+
+    repo.logo=yghh.png
+
+### Used cgit filters
 
 -- TO BE CONTINUED
 
@@ -212,7 +217,7 @@ If you select the project "yghh" in the list of projects now appearing on "http:
 
 For more informations on git hosting or on cgit, read the following references
 
-  1. [Progit v2](https://git-scm.com/book/en/v2) by Scott Chacon, chapter 4 : Git on the server
+  1. [Progit v2](https://git-scm.com/book/en/v2) by Scott Chacon and Ben Straub, chapter 4 : Git on the server
   2. Cgit README, and manpage on [cgit website](https://git.zx2c4.com/cgit/)
 
 ## Author
