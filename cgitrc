@@ -1,6 +1,12 @@
 
 clone-url=http://example.com/yanngit/$CGIT_REPO_URL.git
 
+source-filter=/usr/local/share/cgit/filters/syntax-highlighting.py
+about-filter=/usr/local/share/cgit/filters/about-formatting.sh
+email-filter=/usr/local/share/cgit/filters/email-gravatar.py
+
+readme=:README.md
+
 repo.url=yghh
 repo.path=/var/www/htdocs/yghh.git
 repo.desc=Yannick's Git Hosting Howto

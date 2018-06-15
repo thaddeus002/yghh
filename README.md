@@ -195,7 +195,7 @@ You must declare yours repositories for cgit to be able to show them. For our ex
     repo.url=yghh
     repo.path=/var/www/htdocs/yghh.git
     repo.desc=Yannick's Git Hosting Howto
-    repo.owner=Yannick Garcia  
+    repo.owner=Yannick Garcia
 
 You may have as much "repo.*" lines as repositories you are hosting.
 
@@ -210,6 +210,45 @@ You may want to replace the cgit logo at the top-left of the page by another log
     repo.logo=/yghh.png
 
 ### Used cgit filters
+
+In cgit, filters are modifiers for some elements to show in the web interface.
+
+They are not activated by default and they must be added in `/etc/cgitrc`.
+
+You can define three filters :
+
+  * source-filter : this filter is applyed before showing source files content. It is used to highlight syntax.
+  * about-filter : this one is for format help text document. For example, convert markdown to formatted html.
+  * email-filter : this filter can be used to add an avatar icon to commit author's name.
+
+#### Use the filters included in cgit
+
+Cgit sources provide default filters that you can used. Theses filters need python3. You must install python3 if you want used them. Otherwise, you can use alternatives programs as filters.
+
+Copy the filters in a location where apache can find them :
+
+    # mkdir -p /usr/local/share/cgit
+    # cp -r filters /usr/local/share/cgit/
+
+And add their locations in `cgitrc` file :
+
+    source-filter=/usr/local/share/cgit/filters/syntax-highlighting.py
+    about-filter=/usr/local/share/cgit/filters/about-formatting.sh
+    email-filter=/usr/local/share/cgit/filters/email-gravatar.py
+
+for the about-filter you must define too the filename of the file to filter. This filename is relative to the repository directory. For example
+
+    readme=:README.md
+
+meaning : file README.md on master branch
+
+    readme=foo:INSTALL.html
+
+meaning : file INSTALL.html on foo branch
+
+You may define as `readme=...` as needed to cover all the cases of yours projects.
+
+Is this file is found in the project repository, a "about" tab may appear, showing is filtered (formated) content, in the web interface of the project.
 
 -- TO BE CONTINUED
 
