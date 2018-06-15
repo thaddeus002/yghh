@@ -5,4 +5,4 @@ repo.url=yghh
 repo.path=/var/www/htdocs/yghh.git
 repo.desc=Yannick's Git Hosting Howto
 repo.owner=Yannick Garcia  
-repo.logo=yghh.png
+repo.logo=/yghh.png

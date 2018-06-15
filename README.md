@@ -207,7 +207,7 @@ If you select the project "yghh" in the list of projects now appearing on "http:
 
 You may want to replace the cgit logo at the top-left of the page by another logo. Place this logo on the server, under "/var/www/html/yghh.png", and edit "/etc/cgitrc", adding after the line "repo.url=yghh" :
 
-    repo.logo=yghh.png
+    repo.logo=/yghh.png
 
 ### Used cgit filters
 
