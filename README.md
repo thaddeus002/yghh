@@ -235,7 +235,20 @@ meaning : file `INSTALL.html` on `foo` branch
 
 You may define as `readme=...` as needed to cover all the cases of yours projects.
 
-Is this file is found in the project repository, a `about` tab may appear, showing is filtered (formated) content, in the web interface of the project.
+Is this file is found in the project repository, a `about` tab may appear, showing his filtered (formatted) content, in the web interface of the project.
+
+For the images of your project to be include in this formatted page, you also need add some additionals lines to be included in `/etc/cgitrc` :
+
+    ##
+    ## List of common mimetypes
+    ##
+    mimetype.gif=image/gif
+    mimetype.html=text/html
+    mimetype.jpg=image/jpeg
+    mimetype.jpeg=image/jpeg
+    mimetype.pdf=application/pdf
+    mimetype.png=image/png
+    mimetype.svg=image/svg+xml
 
 -- TO BE CONTINUED
 
