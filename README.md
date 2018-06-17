@@ -22,7 +22,7 @@ Finally, git must be installed on this server
 
 The repositories will be in "/var/www/htdocs". If the directory does not exits, create it :
 
-    # mkdir -p /var/www/htdocs
+    $ sudo mkdir -p /var/www/htdocs
 
 The contents of this directory must be readable at least by the webserver, so the repositories will be clonable. I choosed let it be readable by everybody.
 
@@ -30,9 +30,9 @@ The repositories must also be writable by the people which are allowed to push t
 
 The write rigths will be allowed to groups. First, we create a group "git" which will own by default all the repositories. For this, we put the "setguid" bit on their parent directory :
 
-    # addgroup git
-    # chgrp git /var/www/htdocs
-    # chmod 2775 /var/www/htdocs
+    $ sudo addgroup git
+    $ sudo chgrp git /var/www/htdocs
+    $ sudo chmod 2775 /var/www/htdocs
 
 ### configure web access to the repositories (only need for anonymous clone)
 
@@ -47,11 +47,11 @@ Add to the file "/etc/httpd/conf/httpd.conf" (may be "/etc/apache2/apache.conf" 
 
 Then restart apache deamon :
 
-    # service httpd restart
+    $ sudo service httpd restart
 
 or
 
-    # service apache2 restart
+    $ sudo service apache2 restart
 
 following apache's version.
 
@@ -59,34 +59,34 @@ following apache's version.
 
 To create the repository "yghh" owned by "yannick", first create the user "yannick" with group "git".
 
-    # adduser yannick git
+    $ sudo adduser yannick git
 
 To prevent this user to obtain a shell (through ssh) on the server, configure git-shell as his login shell.
 
 If git-shell is not in /etc/shells, first add it :
 
-    # which git-shell >> /etc/shells
+    $ sudo which git-shell >> /etc/shells
 
 Then change yannick's shell :
 
-    # chsh git -s `which git-shell`
+    $ sudo chsh git -s `which git-shell`
 
 Optionnaly put his public key in ~yannick/.ssh to not be asked for password. Or put an password with command "passwd yannick".
 
 Create now an empty bare repository, and add write rights to group :
 
-    # mkdir /var/www/htdocs/yghh.git
-    # cd /var/www/htdocs/yghh.git
-    # git init --bare
-    # chmod -R 775 branches objects refs
-    # chmod 775 info
-    # chmod 664 HEAD info/*
+    $ sudo mkdir /var/www/htdocs/yghh.git
+    $ sudo cd /var/www/htdocs/yghh.git
+    $ sudo git init --bare
+    $ sudo chmod -R 775 branches objects refs
+    $ sudo chmod 775 info
+    $ sudo chmod 664 HEAD info/*
 
 For the repository to be clonable by HTTP, you must add a hook for each update. This is not needed if you don't want your repository to de clonable by everyone.
 
-    # mv hooks/post-update.sample hooks/post-update
-    # ./hooks/post-update
-    # chmod 664 info/* objects/info/*
+    $ sudo mv hooks/post-update.sample hooks/post-update
+    $ sudo ./hooks/post-update
+    $ sudo chmod 664 info/* objects/info/*
 
 ### clone and push
 
@@ -139,11 +139,11 @@ add the following in "/etc/httpd/conf/httpd.conf" or "/etc/apache2/apache2.conf"
 
 and create the directory :
 
-    # mkdir /var/www/htdocs/cgit
+    $ sudo mkdir /var/www/htdocs/cgit
 
 #### Restarting service
 
-    # service httpd restart
+    $ sudo service httpd restart
 
 or
 
@@ -153,11 +153,11 @@ or
 
 It's probably possible with your distribution to install cgit with the packet manager. But for better understand how it works, we'll build and install it ourself. If you don't want to do this, or don't have gcc installed on your server, skip this section and simply do
 
-    # apt get install cgit
+    $ sudo apt get install cgit
 
 or
 
-    # yum install cgit
+    $ sudo yum install cgit
 
 or whatever is suitable for your distribution.
 
@@ -169,23 +169,23 @@ Else you can build cgit :
 
 After that, install the program on the webserver :
 
-    # cp cgit /var/www/htdocs/cgit/cgit.cgi
+    $ sudo cp cgit /var/www/htdocs/cgit/cgit.cgi
 
 At this point, the url "http://example.com/cgit/cgit.cgi" must be accessible and present some text.
 
 To make this page nicer, we need to add a css, a logo, and a favicon. Considering the root webserver directory is "/var/www/html", we can put theses files in it :
 
-    # cp cgit*.css /var/www/html/
-    # cp cgit.png /var/www/html/
-    # cp favicon.ico /var/www/html/
+    $ sudo cp cgit*.css /var/www/html/
+    $ sudo cp cgit.png /var/www/html/
+    $ sudo cp favicon.ico /var/www/html/
 
 By default, these file are looked for in the root directory on the web server. This can be override in by cgit configuration. See cgitrc manpage for detail.
 
 To avoid error logs for apache, create the directory /var/cache/cgit and make it writable for apache
 
-    # mkdir -p /var/cache/cgit
-    # chgrp www-data /var/cache/cgit
-    # chmod 775 /var/cache/cgit
+    $ sudo mkdir -p /var/cache/cgit
+    $ sudo chgrp www-data /var/cache/cgit
+    $ sudo chmod 775 /var/cache/cgit
 
 ### Configure your repository
 
@@ -228,8 +228,8 @@ Cgit sources provide default filters that you can used. Theses filters need pyth
 
 Copy the filters in a location where apache can find them :
 
-    # mkdir -p /usr/local/share/cgit
-    # cp -r filters /usr/local/share/cgit/
+    $ sudo mkdir -p /usr/local/share/cgit
+    $ sudo cp -r filters /usr/local/share/cgit/
 
 And add their locations in `cgitrc` file :
 
