@@ -250,7 +250,22 @@ For the images of your project to be include in this formatted page, you also ne
     mimetype.png=image/png
     mimetype.svg=image/svg+xml
 
--- TO BE CONTINUED
+### Interesting additional config parameters
+
+You'll probably want to define this parameters
+
+  * allow statistics tab : `max-stats=quarter`
+  * allow showing number of files affected per commit : `enable-log-filecount=1`
+  * allow showing number of lines added/removed per commit : `enable-log-linecount=1`
+  * allow showing blame informations : `enable-blame=1`
+
+### final cgit config file
+
+Your config file will finally look like [this](cgitrc).
+
+And you project's main page, like this :
+
+![]()
 
 ## References
 

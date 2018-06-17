@@ -1,4 +1,5 @@
 
+# Specify some default clone urls using macro expansion
 clone-url=http://example.com/yanngit/$CGIT_REPO_URL.git
 
 ##
@@ -23,6 +24,19 @@ mimetype.svg=image/svg+xml
 ## List of documentation files
 ##
 readme=:README.md
+
+# Enable statistics per week, month and quarter
+max-stats=quarter
+
+# Show number of affected files per commit on the log pages
+enable-log-filecount=1
+
+# Show number of added/removed lines per commit on the log pages
+enable-log-linecount=1
+
+# Enable blame page and create links to it from tree page
+enable-blame=1
+
 
 # YGHH's repository
 repo.url=yghh
