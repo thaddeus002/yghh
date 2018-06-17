@@ -209,7 +209,7 @@ You may want to replace the cgit logo at the top-left of the page by another log
 
     repo.logo=/yghh.png
 
-### Used cgit filters
+### Use cgit filters
 
 In cgit, filters are modifiers for some elements to show in the web interface.
 
@@ -223,7 +223,8 @@ You can define three filters :
 
 #### Use the filters included in cgit
 
-Cgit sources provide default filters that you can used. Theses filters need python3. You must install python3 if you want used them. Otherwise, you can use alternatives programs as filters.
+Cgit sources provide default filters that you can used. Theses filters need python3. You must install python3 if you want used them. The packages `python3-markdown` and `python3-pygments` are also required.
+
 
 Copy the filters in a location where apache can find them :
 
