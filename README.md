@@ -40,7 +40,7 @@ Add to the file "/etc/httpd/conf/httpd.conf" (may be "/etc/apache2/apache.conf" 
 
     Alias /yanngit/ "/var/www/htdocs/"
     <Directory /var/www/htdocs>
-        Options Indexes FollowSymLinks
+        Options FollowSymLinks
         AllowOverride None
         Require all granted
     </Directory>
@@ -132,7 +132,7 @@ add the following in "/etc/httpd/conf/httpd.conf" or "/etc/apache2/apache2.conf"
 
     ScriptAlias /cgit/ "/var/www/htdocs/cgit/"
     <Directory /var/www/htdocs/cgit>
-        Options Indexes FollowSymLinks
+        Options FollowSymLinks
         AllowOverride None
         Require all granted
     </Directory>
