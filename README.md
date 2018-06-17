@@ -4,7 +4,7 @@ This document will describe one way to host Git repositories on a Linux server. 
 
 There are many ways to do this, I present here my way, the one I think is simpler. This is a moving document that can evolute with time. You are free to follow this as a guide if you don't know how to do. Let me know if you think something is wrong, or make a pull request.
 
-Must of the actions to do are generic, but, following your distribution, some paths or filename may change.
+I have reproduced here the commands I have done to install git repositories and `cgit` on a raspberry pi running the raspbian distribution. Althrought the actions to do are generic, following your distribution, some paths or filename may change.
 
 ## Prerequisites
 
@@ -46,10 +46,6 @@ Add to the file "/etc/httpd/conf/httpd.conf" (may be "/etc/apache2/apache.conf" 
     </Directory>
 
 Then restart apache deamon :
-
-    $ sudo service httpd restart
-
-or
 
     $ sudo service apache2 restart
 
@@ -143,10 +139,6 @@ and create the directory :
 
 #### Restarting service
 
-    $ sudo service httpd restart
-
-or
-
     $ sudo service apache2 restart
 
 ### Compiling and installing cgit
@@ -154,12 +146,6 @@ or
 It's probably possible with your distribution to install cgit with the packet manager. But for better understand how it works, we'll build and install it ourself. If you don't want to do this, or don't have gcc installed on your server, skip this section and simply do
 
     $ sudo apt get install cgit
-
-or
-
-    $ sudo yum install cgit
-
-or whatever is suitable for your distribution.
 
 Else you can build cgit :
 
