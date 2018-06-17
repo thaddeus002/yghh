@@ -1,16 +1,16 @@
 # Yannick's Git Hosting Howto Project
 
-This document will describe one way to host Git repositories on a Linux server. IS STILL NOT COMPLETED.
+This document will describe one way to host Git repositories on a Linux server.
 
 There are many ways to do this, I present here my way, the one I think is simpler. This is a moving document that can evolute with time. You are free to follow this as a guide if you don't know how to do. Let me know if you think something is wrong, or make a pull request.
 
-I have reproduced here the commands I have done to install git repositories and `cgit` on a raspberry pi running the raspbian distribution. Althrought the actions to do are generic, following your distribution, some paths or filename may change.
+I have reproduced here the commands I have done to install git repositories and `cgit` on a raspberry pi running the raspbian distribution. Althrought the actions to do are generic, following your distribution, some paths or filenames may change.
 
 ## Prerequisites
 
-You'll need of course a server with root access. It will be named `example.com` in this document. In the following, replace "example.com" by the name or the IP address of your server.
+You'll need of course a server with root access. It will be named `example.com` in this document. In the following, replace `example.com` by the name or the IP address of your server.
 
-We'll also used HTTP protocol for anonymous repositories clone. And so a web server must be install on "example.com". The configurations showned are for the apache server. This Howto doesn't present the configuration for others webservers. Please contribute if you want them to appear.
+We'll also used HTTP protocol for anonymous repositories clone. And so a web server must be install on `example.com`. The configurations showned are for the apache server. This Howto doesn't present the configuration for others webservers. Please contribute if you want them to appear.
 
 The git push, will be made over ssh protocol. The sshd deamon is probably already running on your server. If not, install it.
 
@@ -265,7 +265,7 @@ Your config file will finally look like [this](cgitrc).
 
 And you project's main page, like this :
 
-![]()
+![screenshot](yghh_final_view.png)
 
 ## References
 
