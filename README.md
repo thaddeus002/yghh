@@ -1,8 +1,8 @@
-# Yannick's Git Hosting Howto Project
+# Yannick's Git Hosting Howto
 
-This document will describe one way to host Git repositories on a Linux server.
+This document describe one way to host Git repositories on a Linux server.
 
-There are many ways to do this, I present here my way, the one I think is simpler. This is a moving document that can evolute with time. You are free to follow this as a guide if you don't know how to do. Let me know if you think something is wrong, or make a pull request.
+There are many ways to do this, I present here my way, the one I think is simpler. This is a moving document that can evolute with time. You are free to follow this as a guide if you don't know how to do. Feel free to let me know if you think something is wrong, or make a pull request.
 
 I have reproduced here the commands I have done to install git repositories and `cgit` on a raspberry pi running the raspbian distribution. Althrought the actions to do are generic, following your distribution, some paths or filenames may change.
 
@@ -14,7 +14,7 @@ We'll also used HTTP protocol for anonymous repositories clone. And so a web ser
 
 The git push, will be made over ssh protocol. The sshd deamon is probably already running on your server. If not, install it.
 
-Finally, git must be installed on this server
+Finally, git must be installed on this server.
 
 ## Set the repositories
 
@@ -24,9 +24,9 @@ The repositories will be in `/var/www/htdocs`. If the directory does not exits, 
 
     $ sudo mkdir -p /var/www/htdocs
 
-The contents of this directory must be readable at least by the webserver, so the repositories will be clonable. I choosed let it be readable by everybody.
+The contents of this directory must be readable at least by the web server, so the repositories will be clonable. I choosed let it be readable by everybody.
 
-The repositories must also be writable by the people which are allowed to push their commits. As this will be made by ssh, these people will a accounts on the server. We'll name then `users`.
+The repositories must also be writable by the people which are allowed to push their commits. As this will be made by ssh, these people will have an accounts on the server. We'll name then `users`.
 
 The write rigths will be allowed to groups. First, we create a group `git` which will own by default all the repositories. For this, we put the `setguid` bit on their parent directory :
 
@@ -35,6 +35,8 @@ The write rigths will be allowed to groups. First, we create a group `git` which
     $ sudo chmod 2775 /var/www/htdocs
 
 ### configure web access to the repositories (only need for anonymous clone)
+
+As `/var/www/htdocs` is not below the root directory of our web server, we must access it by a symlink or an alias. Here we use the alias `yanngit`, so the repositories will be under `http://example.com/yanngit/`.
 
 Add to the file `/etc/apache2/apache.conf` :
 
@@ -45,29 +47,27 @@ Add to the file `/etc/apache2/apache.conf` :
         Require all granted
     </Directory>
 
-Then restart apache deamon :
+Then restart apache deamon to take into account this new configuration.
 
     $ sudo service apache2 restart
 
-following apache's version.
-
 ### create a repository
 
-To create the repository `yghh` owned by `yannick`, first create the user `yannick` with group `git`.
+We now want to create the repository `yghh` owned by the user `yannick`.
 
-    $ sudo adduser yannick git
+So we'll create the user `yannick` with group `git`. To prevent this user to obtain a shell (through ssh) on the server, his login shell will be `git-shell`.
 
-To prevent this user to obtain a shell (through ssh) on the server, configure git-shell as his login shell.
-
-If git-shell is not in /etc/shells, first add it :
+If `git-shell` is not in `/etc/shells`, first add it :
 
     $ sudo which git-shell >> /etc/shells
 
-Then change yannick's shell :
+Then create the user :
 
-    $ sudo chsh git -s `which git-shell`
+    $ sudo useradd -g git -s /usr/bin/git-shell yannick
 
-Optionnaly put his public key in `~yannick/.ssh` to not be asked for password. Or put an password with command `passwd yannick`.
+You may put his public key in `~yannick/.ssh` to not be asked for password. Otherwise set a default password for this user :
+
+    $ sudo passwd yannick
 
 Create now an empty bare repository, and add write rights to group :
 
@@ -78,7 +78,7 @@ Create now an empty bare repository, and add write rights to group :
     $ sudo chmod 775 info
     $ sudo chmod 664 HEAD info/*
 
-For the repository to be clonable by HTTP, you must add a hook for each update. This is not needed if you don't want your repository to de clonable by everyone.
+For the repository to be clonable by HTTP, you must add a hook for each update. This is not needed if you don't want your repository to be clonable by everyone.
 
     $ sudo mv hooks/post-update.sample hooks/post-update
     $ sudo ./hooks/post-update
@@ -102,7 +102,7 @@ If you arrived here, your git hosting is operationnal. Now you can add repositor
 
 ## Optional web interface with cgit
 
-Now you have a server for hosting yours git repositories. And there is a webserver running on it.
+Now you have a server for hosting yours git repositories. And there is a web server running on it.
 
 So, you may like to browse your repositories and explore the commits in a web interface.
 
@@ -114,7 +114,7 @@ For this to work the cgi module must be loaded by apache deamon, and the directo
 
 #### Loading cgi module
 
-In your `/etc/httpd/conf/httpd.conf` or `/etc/apache2/apache2.conf` file uncomment the line beginning by `LoadModule cgid_module`
+In your `/etc/apache2/apache2.conf` file uncomment the line beginning by `LoadModule cgid_module`
 
 On a raspberry pi, the equivalent action is made by creating two symlinks :
 
@@ -124,7 +124,7 @@ On a raspberry pi, the equivalent action is made by creating two symlinks :
 
 #### Adding the cgi directory
 
-add the following in `/etc/httpd/conf/httpd.conf` or `/etc/apache2/apache2.conf` file :
+add the following in `/etc/apache2/apache2.conf` file :
 
     ScriptAlias /cgit/ "/var/www/htdocs/cgit/"
     <Directory /var/www/htdocs/cgit>
@@ -145,7 +145,7 @@ and create the directory :
 
 It's probably possible with your distribution to install cgit with the packet manager. But for better understand how it works, we'll build and install it ourself. If you don't want to do this, or don't have gcc installed on your server, skip this section and simply do
 
-    $ sudo apt get install cgit
+    $ sudo apt install cgit
 
 Else you can build cgit :
 
@@ -159,7 +159,7 @@ After that, install the program on the webserver :
 
 At this point, the url `http://example.com/cgit/cgit.cgi` must be accessible and present some text.
 
-To make this page nicer, we need to add a css, a logo, and a favicon. Considering the root webserver directory is `/var/www/html`, we can put theses files in it :
+To make this page nicer, we need to add a css, a logo, and a favicon. Considering the root web server directory is `/var/www/html`, we can put theses files in it :
 
     $ sudo cp cgit*.css /var/www/html/
     $ sudo cp cgit.png /var/www/html/
@@ -183,7 +183,7 @@ You must declare yours repositories for cgit to be able to show them. For our ex
     repo.desc=Yannick's Git Hosting Howto
     repo.owner=Yannick Garcia
 
-You may have as much `repo.*` lines as repositories you are hosting.
+You may have as much `repo.*` lines sections as repositories you are hosting.
 
 If you select the project `yghh` in the list of projects now appearing on `http://example.com/cgit/cgit.cgi`, you may see something looking like this :
 
@@ -201,7 +201,7 @@ In cgit, filters are modifiers for some elements to show in the web interface.
 
 They are not activated by default and they must be added in `/etc/cgitrc`.
 
-You can define three filters :
+You may want to define these three filters :
 
   * source-filter : this filter is applyed before showing source files content. It is used to highlight syntax.
   * about-filter : this one is for format help text document. For example, convert markdown to formatted html.
@@ -210,7 +210,6 @@ You can define three filters :
 #### Use the filters included in cgit
 
 Cgit sources provide default filters that you can used. Theses filters need `python3`. You must install `python3` if you want used them. The packages `python3-markdown` and `python3-pygments` are also required.
-
 
 Copy the filters in a location where apache can find them :
 
@@ -236,6 +235,8 @@ meaning : file `INSTALL.html` on `foo` branch
 You may define as `readme=...` as needed to cover all the cases of yours projects.
 
 Is this file is found in the project repository, a `about` tab may appear, showing his filtered (formatted) content, in the web interface of the project.
+
+If you don't see the content of your README document, something went wrong. See `/var/log/apache2/error.log` for detail.
 
 For the images of your project to be include in this formatted page, you also need add some additionals lines to be included in `/etc/cgitrc` :
 
