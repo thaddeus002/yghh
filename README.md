@@ -72,6 +72,7 @@ You may put his public key in `~yannick/.ssh` to not be asked for password. Othe
 Create now an empty bare repository, and add write rights to group :
 
     $ sudo mkdir /var/www/htdocs/yghh.git
+    $ sudo chmod 2775 /var/www/htdocs/yghh.git
     $ sudo cd /var/www/htdocs/yghh.git
     $ sudo git init --bare
     $ sudo chmod -R 775 branches objects refs
