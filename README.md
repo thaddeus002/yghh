@@ -38,7 +38,7 @@ The write rigths will be allowed to groups. First, we create a group `git` which
 
 As `/var/www/htdocs` is not below the root directory of our web server, we must access it by a symlink or an alias. Here we use the alias `yanngit`, so the repositories will be under `http://example.com/yanngit/`.
 
-Add to the file `/etc/apache2/apache.conf` :
+Add to the file `/etc/apache2/apache2.conf` :
 
     Alias /yanngit/ "/var/www/htdocs/"
     <Directory /var/www/htdocs>
